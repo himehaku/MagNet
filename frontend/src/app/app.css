@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.header h1 {
+  color: #2563eb;
+  font-size: 36px;
+  margin: 0 0 8px;
+}
+
+.header p,
+.welcome p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.welcome {
+  margin: 40px 0;
+}
+
+.welcome h2 {
+  font-size: 28px;
+}
+
+.status-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px #0000000d;
+}
+
+.status-card h3 {
+  margin-top: 0;
+}
+
+.connected {
+  color: #15803d;
+  font-weight: bold;
+}
