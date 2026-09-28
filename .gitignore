@@ -1,0 +1,40 @@
+# Dependencias
+node_modules/
+.venv/
+venv/
+
+# Builds
+dist/
+coverage/
+.angular/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+
+# Credenciales y claves
+*.pem
+*.key
+*.p12|
+*.pfx
