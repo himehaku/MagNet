@@ -50,7 +50,7 @@ export class Login {
 
           this.loading.set(false);
 
-          this.router.navigate(['/']);
+          this.router.navigate(['/profile']);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 401) {
