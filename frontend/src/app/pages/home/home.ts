@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 interface HealthResponse {
   status: string;
@@ -9,12 +9,12 @@ interface HealthResponse {
 }
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterLink, RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  selector: 'app-home',
+  imports: [RouterLink],
+  templateUrl: './home.html',
+  styleUrl: './home.css'
 })
-export class App {
+export class Home {
   private http = inject(HttpClient);
 
   protected readonly title = signal('MagNet');
