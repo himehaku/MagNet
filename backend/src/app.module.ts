@@ -8,6 +8,8 @@ import { AppService } from './app.service';
 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CompatibilityModule } from './compatibility/compatibility.module';
+
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -39,7 +41,12 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
           password,
           database: configService.get<string>('DB_DATABASE'),
           autoLoadEntities: true,
-          synchronize: true,
+
+          migrations: [
+            __dirname + '/database/migrations/*{.ts,.js}',
+          ],
+
+          synchronize: false,
         };
       },
     }),
@@ -53,6 +60,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     UsersModule,
 
     AuthModule,
+
+    CompatibilityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
