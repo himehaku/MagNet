@@ -1,1 +1,32 @@
-<p>home works!</p>
+<main class="container">
+  <header class="header">
+    <h1>MagNet</h1>
+    <p>Encuentra oportunidades laborales compatibles contigo.</p>
+  </header>
+
+  <section class="welcome">
+    <h2>Tu próxima oportunidad comienza aquí</h2>
+    <p>
+      MagNet te ayudará a descubrir ofertas de empleo que se ajusten
+      a tu perfil y tus intereses.
+    </p>
+
+    <div class="actions">
+      <a routerLink="/login">Iniciar sesión</a>
+      <a routerLink="/register">Crear cuenta</a>
+    </div>
+  </section>
+
+  <section class="status-card">
+    <h3>Estado del sistema</h3>
+
+    <p>
+      <strong>Backend:</strong>
+      <span [class.connected]="apiStatus() === 'ok'">
+        {{ apiStatus() }}
+      </span>
+    </p>
+
+    <p>{{ apiMessage() }}</p>
+  </section>
+</main>
