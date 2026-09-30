@@ -3,19 +3,81 @@ services:
     image: postgres:16
     container_name: magnet-postgres
     restart: unless-stopped
+
     environment:
       POSTGRES_DB: magnet
       POSTGRES_USER: magnet
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
     ports:
       - "5432:5432"
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U magnet -d magnet"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+
+  python-service:
+    build:
+      context: ./python-service
+
+    container_name: magnet-python
+
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: magnet-backend
+
+    restart: unless-stopped
+
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: magnet
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_DATABASE: magnet
+
+      JWT_SECRET: ${JWT_SECRET}
+
+      PYTHON_SERVICE_URL: http://python-service:8000
+
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+      python-service:
+        condition: service_started
+
+
+  frontend:
+    build:
+      context: ./frontend
+
+    container_name: magnet-frontend
+
+    restart: unless-stopped
+
+    ports:
+      - "4200:80"
+
+    depends_on:
+      - backend
+
 
 volumes:
   postgres_data:
