@@ -1,5 +1,10 @@
+import httpx
+
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi import HTTPException
+from app.services.jobs_service import fetch_jobs
+
 
 app = FastAPI(
     title="MagNet Python Service",
@@ -26,6 +31,35 @@ def health_check():
         "status": "ok",
         "service": "python-service"
     }
+
+@app.get("/jobs/fetch")
+async def get_jobs(limit: int = 20):
+    try:
+        jobs = await fetch_jobs(limit)
+
+        return {
+            "source": "Get on Board",
+            "count": len(jobs),
+            "jobs": jobs,
+        }
+
+    except httpx.TimeoutException as exc:
+        raise HTTPException(
+            status_code=504,
+            detail="Get on Board tardó demasiado en responder",
+        ) from exc
+
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail="Get on Board respondió con un error",
+        ) from exc
+
+    except httpx.HTTPError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail="No fue posible conectar con Get on Board",
+        ) from exc
 
 
 @app.post("/compatibility")
