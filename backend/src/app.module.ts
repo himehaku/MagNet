@@ -9,6 +9,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CompatibilityModule } from './compatibility/compatibility.module';
+import { JobsModule } from './jobs/jobs.module';
+
 
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
@@ -62,6 +64,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AuthModule,
 
     CompatibilityModule,
+
+    JobsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
