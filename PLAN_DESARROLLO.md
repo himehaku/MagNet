@@ -215,7 +215,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
 
 ### Módulo: estado, backlog y trazabilidad
 
-- [ ] **GOV-001 — Adoptar este documento como backlog oficial**
+- [x] **GOV-001 — Adoptar este documento como backlog oficial**
   - **Descripción:** incorporar `PLAN_DESARROLLO.md` al repositorio y usarlo como fuente central de seguimiento.
   - **Estado:** pendiente
   - **Prioridad:** alta
@@ -425,7 +425,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** externalId, source, URL, descripción, metadatos y timestamps; unique `(source, externalId)`.
   - **Evidencia:** entidad TypeORM + build.
 
-- [ ] **DB-002 — Generar y ejecutar migración `jobs`**
+- [x] **DB-002 — Generar y ejecutar migración `jobs`**
   - **Estado:** bloqueada
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -433,7 +433,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** migración aplicada a PostgreSQL sin `synchronize:true`.
   - **Evidencia:** archivo de migración + tabla visible + migration history.
 
-- [ ] **BEJOB-002 — Implementar NestJS → FastAPI para importar jobs**
+- [x] **BEJOB-002 — Implementar NestJS → FastAPI para importar jobs**
   - **Estado:** en desarrollo / por verificar
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -441,7 +441,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** endpoint NestJS solicita jobs a FastAPI con timeout y respuesta controlada.
   - **Evidencia:** request funcional y logs/tests.
 
-- [ ] **DB-003 — Persistir y actualizar ofertas sin duplicados**
+- [x] **DB-003 — Persistir y actualizar ofertas sin duplicados**
   - **Estado:** pendiente
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -449,7 +449,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** primera importación crea; segunda actualiza/ignora sin duplicar.
   - **Evidencia:** conteos DB + respuesta endpoint.
 
-- [ ] **BEJOB-003 — Implementar `GET /jobs`**
+- [x] **BEJOB-003 — Implementar `GET /jobs`**
   - **Estado:** pendiente / por verificar
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -541,7 +541,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
 
 ### Módulo: ofertas
 
-- [ ] **FEJOB-001 — Crear modelo/interface `Job` frontend**
+- [x] **FEJOB-001 — Crear modelo/interface `Job` frontend**
   - **Estado:** pendiente
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -549,7 +549,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** contrato alineado con respuesta NestJS.
   - **Evidencia:** archivo model/interface + build.
 
-- [ ] **FEJOB-002 — Crear `JobsService` Angular**
+- [x] **FEJOB-002 — Crear `JobsService` Angular**
   - **Estado:** pendiente
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -557,7 +557,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** frontend consulta NestJS, nunca FastAPI directamente.
   - **Evidencia:** service + test o demo.
 
-- [ ] **FEJOB-003 — Crear página `/jobs` con Ionic**
+- [x] **FEJOB-003 — Crear página `/jobs` con Ionic**
   - **Estado:** pendiente
   - **Prioridad:** crítica
   - **Entrega:** EP2
@@ -565,7 +565,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** lista de ofertas reales con cargo, empresa, ubicación/modalidad, categoría y fuente.
   - **Evidencia:** demo funcional.
 
-- [ ] **FEJOB-004 — Agregar enlace a oferta original**
+- [x] **FEJOB-004 — Agregar enlace a oferta original**
   - **Estado:** pendiente
   - **Prioridad:** alta
   - **Entrega:** EP2
@@ -573,7 +573,7 @@ La capacidad adaptativa/inteligente propuesta consiste en calcular un **índice 
   - **Aceptación:** botón abre `sourceUrl` correcto y muestra atribución.
   - **Evidencia:** demo.
 
-- [ ] **FEJOB-005 — Estados loading/empty/error**
+- [x] **FEJOB-005 — Estados loading/empty/error**
   - **Estado:** pendiente
   - **Prioridad:** alta
   - **Entrega:** EP2
