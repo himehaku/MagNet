@@ -3,6 +3,7 @@ import { Home } from './pages/home/home';
 import { Register } from './pages/register/register';
 import { Login } from './pages/login/login';
 import { Profile } from './pages/profile/profile';
+import { JobsPage } from './pages/jobs/jobs';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: Profile,
+  },
+  {
+    path: 'jobs',
+    component: JobsPage,
   },
   {
     path: '**',
