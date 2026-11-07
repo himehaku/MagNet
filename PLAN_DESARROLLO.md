@@ -1212,13 +1212,11 @@ Una tarea solo puede pasar a **completada** cuando, según aplique:
 
 ---
 
-# 10. Próximas tareas recomendadas
+# 10. Próximas tareas 
 
 ## Próxima sesión técnica
 
 **No iniciar nuevas funcionalidades antes de cerrar el bloqueo de persistencia.**
-
-Orden recomendado:
 
 1. **BLK-001:** diagnosticar conexión efectiva de `dist/database/data-source.js`.
 2. **DB-002:** generar y ejecutar migración `CreateJobsTable`.
@@ -1237,85 +1235,3 @@ Mientras se trabaja backend, puede avanzarse sin conflicto en:
 
 ---
 
-# 11. Resumen de avance por fase
-
-> Los porcentajes no representan nota académica; son una lectura operativa conservadora basada únicamente en evidencia conocida.
-
-| Fase | Estado general | Comentario |
-|---|---|---|
-| Gestión/correcciones | Inicial | Backlog central recién definido |
-| Arquitectura | Parcial | Base conocida; documentación debe verificarse/actualizarse |
-| Fuente web/Python | Avanzado pero incompleto | Recuperación real funciona; faltan tests/métricas/documentación |
-| Backend/persistencia | Parcial y bloqueado | Users funciona; jobs detenido en migración |
-| Frontend | Parcial | Auth básico; jobs y estructura Angular faltantes |
-| Adaptación | Inicial/parcial | Endpoint básico existe; especificación académica falta |
-| Testing/seguridad | Inicial/parcial | Estados reales deben verificarse |
-| CI/CD | Crítico pendiente | Observación directa del profesor |
-| Terraform/staging | Crítico pendiente | Obligatorio para EP2 |
-| Observabilidad | Parcial | Health existe; resto pendiente |
-| Documentación/release | Pendiente | README y tag requieren trabajo antes de entrega |
-
----
-
-# 12. Resumen por entrega académica
-
-## EP1 — deuda que debe corregirse dentro de EP2
-
-**Con evidencia conocida:** base Angular/Ionic/Capacitor, NestJS, PostgreSQL, auth básica, FastAPI, health, comunicación NestJS↔FastAPI, Docker/Compose.
-
-**Pendiente o por verificar:** arquitectura/documentación completa, frontend bien estructurado, pipeline DevSecOps, variables/secrets en GitHub, tests iniciales, Terraform válido, README reproducible, evidencia de control de seguridad, tag/release.
-
-## EP2 — objetivo inmediato
-
-Para considerar EP2 lista debe poder demostrarse en staging:
-
-```text
-Get on Board
-→ recuperación automatizada
-→ validación/limpieza/normalización Python
-→ FastAPI
-→ NestJS
-→ PostgreSQL
-→ GET /jobs
-→ Angular/Ionic
-```
-
-junto con:
-
-- métrica de evaluación;
-- escenario de error/indisponibilidad;
-- tests Python + integración;
-- pipeline DevSecOps;
-- Terraform validado;
-- deploy automatizado a staging;
-- health checks;
-- observabilidad inicial;
-- README/documentación;
-- tag/release evaluable.
-
-## Entrega Final — planificada, no prioritaria todavía
-
-- capacidad adaptativa completa y evaluada;
-- perfil de usuario suficiente;
-- autorización robusta;
-- PWA y Android demostrables;
-- observabilidad más completa;
-- seguridad/privacidad/accesibilidad final;
-- evaluación de adaptación y comparación base cuando corresponda;
-- documentación y defensa técnica completas.
-
----
-
-# 13. Historial de seguimiento
-
-| Fecha | Cambio | Tareas afectadas |
-|---|---|---|
-| 2026-11-03 | Creación del backlog central a partir del estado conocido, observaciones del profesor y requisitos académicos | Todas |
-| 2026-11-03 | Get on Board queda como fuente técnicamente funcional pero aún pendiente de formalización académica | WEB-001, ADR-001 |
-| 2026-11-03 | Se registra bloqueo TypeORM/migración `jobs` | BLK-001, DB-002 |
-
----
-
-## Regla para futuras actualizaciones con ChatGPT
-
-Cuando se indique que una tarea terminó, se debe revisar su **ID**, sus **criterios de aceptación** y su **evidencia**. Solo después se cambia el estado. Al cerrar una tarea, deben identificarse inmediatamente las dependencias desbloqueadas y recomendarse la siguiente tarea de mayor prioridad.
