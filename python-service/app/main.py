@@ -35,12 +35,13 @@ def health_check():
 @app.get("/jobs/fetch")
 async def get_jobs(limit: int = 20):
     try:
-        jobs = await fetch_jobs(limit)
+        jobs, metrics = await fetch_jobs(limit)
 
         return {
             "source": "Get on Board",
             "count": len(jobs),
             "jobs": jobs,
+            "metrics": metrics,
         }
 
     except httpx.TimeoutException as exc:

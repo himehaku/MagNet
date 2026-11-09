@@ -4,6 +4,7 @@ import re
 import httpx
 
 from app.models.job import Job
+from time import perf_counter
 
 
 GETONBOARD_URL = (
@@ -50,17 +51,21 @@ def normalize_location(
     return " - ".join(parts)
 
 
-async def fetch_jobs(limit: int = 20) -> list[Job]:
+async def fetch_jobs(limit: int = 20) -> tuple[list[Job], dict]:
+    start_time = perf_counter()
+
     async with httpx.AsyncClient(timeout=10.0) as client:
         response = await client.get(GETONBOARD_URL)
         response.raise_for_status()
 
     payload = response.json()
-
     jobs_data = payload.get("data", [])
 
     jobs: list[Job] = []
     seen_ids: set[str] = set()
+
+    invalid = 0
+    duplicates = 0
 
     for item in jobs_data:
         if len(jobs) >= limit:
@@ -68,7 +73,12 @@ async def fetch_jobs(limit: int = 20) -> list[Job]:
 
         job_id = str(item.get("id", "")).strip()
 
-        if not job_id or job_id in seen_ids:
+        if not job_id:
+            invalid += 1
+            continue
+
+        if job_id in seen_ids:
+            duplicates += 1
             continue
 
         attributes = item.get("attributes", {})
@@ -77,11 +87,13 @@ async def fetch_jobs(limit: int = 20) -> list[Job]:
         title = clean_text(attributes.get("title"))
 
         if not title:
+            invalid += 1
             continue
 
         source_url = links.get("public_url")
 
         if not source_url:
+            invalid += 1
             continue
 
         description = clean_text(
@@ -149,4 +161,17 @@ async def fetch_jobs(limit: int = 20) -> list[Job]:
 
         seen_ids.add(job_id)
 
-    return jobs
+    processing_time_ms = round(
+        (perf_counter() - start_time) * 1000,
+        2,
+    )
+
+    metrics = {
+        "total_received": len(jobs_data),
+        "valid": len(jobs),
+        "invalid": invalid,
+        "duplicates": duplicates,
+        "processing_time_ms": processing_time_ms,
+    }
+
+    return jobs, metrics
