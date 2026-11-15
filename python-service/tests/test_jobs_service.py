@@ -1,5 +1,8 @@
 import pytest
+import httpx
 
+from fastapi import HTTPException
+from app.main import get_jobs
 from app.services.jobs_service import fetch_jobs
 from app.services.jobs_service import clean_text
 
@@ -194,3 +197,78 @@ async def test_fetch_jobs_counts_invalid_records(monkeypatch):
     assert metrics["invalid"] == 2
     assert metrics["duplicates"] == 0
     assert metrics["processing_time_ms"] >= 0
+
+@pytest.mark.anyio
+async def test_get_jobs_returns_504_on_timeout(monkeypatch):
+    async def fake_fetch_jobs(limit):
+        raise httpx.TimeoutException("timeout")
+
+    monkeypatch.setattr(
+        "app.main.fetch_jobs",
+        fake_fetch_jobs,
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        await get_jobs(limit=20)
+
+    assert exc_info.value.status_code == 504
+    assert "Get on Board" in exc_info.value.detail
+    assert "Traceback" not in exc_info.value.detail
+
+
+@pytest.mark.anyio
+async def test_get_jobs_returns_502_on_http_error(monkeypatch):
+    request = httpx.Request(
+        "GET",
+        "https://www.getonbrd.com/api/test",
+    )
+
+    response = httpx.Response(
+        status_code=500,
+        request=request,
+    )
+
+    async def fake_fetch_jobs(limit):
+        raise httpx.HTTPStatusError(
+            "server error",
+            request=request,
+            response=response,
+        )
+
+    monkeypatch.setattr(
+        "app.main.fetch_jobs",
+        fake_fetch_jobs,
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        await get_jobs(limit=20)
+
+    assert exc_info.value.status_code == 502
+    assert "Get on Board" in exc_info.value.detail
+    assert "Traceback" not in exc_info.value.detail
+
+
+@pytest.mark.anyio
+async def test_get_jobs_returns_502_on_connection_error(monkeypatch):
+    request = httpx.Request(
+        "GET",
+        "https://www.getonbrd.com/api/test",
+    )
+
+    async def fake_fetch_jobs(limit):
+        raise httpx.ConnectError(
+            "connection failed",
+            request=request,
+        )
+
+    monkeypatch.setattr(
+        "app.main.fetch_jobs",
+        fake_fetch_jobs,
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        await get_jobs(limit=20)
+
+    assert exc_info.value.status_code == 502
+    assert "Get on Board" in exc_info.value.detail
+    assert "Traceback" not in exc_info.value.detail
