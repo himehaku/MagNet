@@ -1,6 +1,31 @@
 import pytest
 
 from app.services.jobs_service import fetch_jobs
+from app.services.jobs_service import clean_text
+
+
+def test_clean_text_removes_html():
+    value = "<p>Python <strong>Developer</strong></p>"
+
+    result = clean_text(value)
+
+    assert result == "Python Developer"
+
+
+def test_clean_text_normalizes_whitespace():
+    value = "Python     Developer\n\nRemoto\tChile"
+
+    result = clean_text(value)
+
+    assert result == "Python Developer Remoto Chile"
+
+
+def test_clean_text_handles_none():
+    assert clean_text(None) == ""
+
+
+def test_clean_text_handles_empty_string():
+    assert clean_text("") == ""
 
 
 class FakeResponse:
