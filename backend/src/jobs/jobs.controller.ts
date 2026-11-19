@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   ParseIntPipe,
@@ -15,8 +16,30 @@ export class JobsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.jobsService.findAll();
+  findAll(
+    @Query('q') q?: string,
+    @Query('location') location?: string,
+    @Query('remote') remote?: string,
+    @Query('category') category?: string,
+  ) {
+    let remoteValue: boolean | undefined;
+
+    if (remote !== undefined) {
+      if (remote !== 'true' && remote !== 'false') {
+        throw new BadRequestException(
+          'El parámetro remote debe ser true o false',
+        );
+      }
+
+      remoteValue = remote === 'true';
+    }
+
+    return this.jobsService.findAll({
+      q,
+      location,
+      remote: remoteValue,
+      category,
+    });
   }
 
   @Post('import')

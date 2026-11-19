@@ -24,13 +24,64 @@ export class JobsService {
     private readonly configService: ConfigService,
   ) {}
 
-  async findAll(): Promise<Job[]> {
-    return this.jobsRepository.find({
-      order: {
-        publishedAt: 'DESC',
+  async findAll(filters: {
+    q?: string;
+    location?: string;
+    remote?: boolean;
+    category?: string;
+  }): Promise<Job[]> {
+    const query = this.jobsRepository
+      .createQueryBuilder('job')
+      .orderBy('job.publishedAt', 'DESC');
+
+    const q = filters.q?.trim();
+
+    if (q) {
+      query.andWhere(
+        `(
+          job.title ILIKE :search
+          OR job.company ILIKE :search
+          OR job.description ILIKE :search
+        )`,
+        {
+          search: `%${q}%`,
+        },
+      );
+    }
+
+    const location = filters.location?.trim();
+
+    if (location) {
+      query.andWhere(
+        'job.location ILIKE :location',
+        {
+          location: `%${location}%`,
+        },
+      );
+    }
+
+  if (filters.remote !== undefined) {
+    query.andWhere(
+      'job.remote = :remote',
+      {
+        remote: filters.remote,
       },
-    });
+    );
   }
+
+  const category = filters.category?.trim();
+
+  if (category) {
+    query.andWhere(
+      'job.category ILIKE :category',
+      {
+        category: `%${category}%`,
+      },
+    );
+  }
+
+  return query.getMany();
+}
 
   async importFromPython(limit = 20) {
     const pythonServiceUrl =
