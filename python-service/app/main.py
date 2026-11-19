@@ -66,13 +66,15 @@ async def get_jobs(limit: int = 20):
 @app.post("/compatibility")
 def calculate_compatibility(data: CompatibilityRequest):
     user_skills = {
-        skill.strip().lower()
+        normalized
         for skill in data.user_skills
+        if (normalized := skill.strip().lower())
     }
 
     job_skills = {
-        skill.strip().lower()
+        normalized
         for skill in data.job_skills
+        if (normalized := skill.strip().lower())
     }
 
     if not job_skills:
