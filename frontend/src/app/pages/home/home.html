@@ -1,33 +1,135 @@
-<main class="container">
-  <header class="header">
-    <h1>MagNet</h1>
-    <p>Encuentra oportunidades laborales compatibles contigo.</p>
-  </header>
+<main class="page-shell">
+  <nav class="topbar">
+    <a class="brand" routerLink="/">
+      MagNet
+    </a>
 
-  <section class="welcome">
-    <h2>Tu próxima oportunidad comienza aquí</h2>
-    <p>
-      MagNet te ayudará a descubrir ofertas de empleo que se ajusten
-      a tu perfil y tus intereses.
-    </p>
+    <div class="topbar-links">
+      <a routerLink="/jobs">
+        Ofertas
+      </a>
 
-    <div class="actions">
-      <a routerLink="/login">Iniciar sesión</a>
-      <a routerLink="/register">Crear cuenta</a>
-      <a routerLink="/jobs">Ver ofertas</a>
+      <a routerLink="/login">
+        Iniciar sesión
+      </a>
+
+      <a class="topbar-cta" routerLink="/register">
+        Crear cuenta
+      </a>
     </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">
+        Conecta tu perfil con mejores oportunidades
+      </span>
+|
+      <h1>
+        Tu próxima oportunidad comienza aquí
+      </h1>
+
+      <p>
+        MagNet te ayuda a descubrir ofertas laborales que se ajustan
+        a tu perfil, experiencia e intereses.
+      </p>
+
+      <div class="hero-actions">
+        <a class="primary-action" routerLink="/jobs">
+          Explorar ofertas
+        </a>
+
+        <a class="secondary-action" routerLink="/register">
+          Crear cuenta
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <div class="compatibility-header">
+        <div>
+          <span class="hero-panel__badge">
+            Matching MagNet
+          </span>
+
+          <h2>
+            Compatibilidad estimada
+          </h2>
+        </div>
+
+        <div class="compatibility-score">
+          78%
+        </div>
+      </div>
+
+      <div class="compatibility-map">
+        <div class="profile-node">
+          <span class="node-dot"></span>
+          <strong>Tu perfil</strong>
+        </div>
+
+        <div class="connection-line connection-line--one"></div>
+        <div class="connection-line connection-line--two"></div>
+
+        <div class="skill-node skill-node--python">
+          Python
+        </div>
+
+        <div class="skill-node skill-node--postgres">
+          PostgreSQL
+        </div>
+
+        <div class="skill-node skill-node--docker">
+          Docker
+        </div>
+
+        <div class="job-node">
+          <span class="node-dot node-dot--job"></span>
+          <div>
+            <strong>Backend Developer</strong>
+            <span>Oferta analizada</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="compatibility-details">
+        <div>
+          <span class="match-dot match-dot--success"></span>
+          <span>Python</span>
+          <strong>Coincide</strong>
+        </div>
+
+        <div>
+          <span class="match-dot match-dot--success"></span>
+          <span>PostgreSQL</span>
+          <strong>Coincide</strong>
+        </div>
+
+        <div>
+          <span class="match-dot match-dot--missing"></span>
+          <span>Docker</span>
+          <strong>Por desarrollar</strong>
+        </div>
+      </div>
+    </aside>
   </section>
 
-  <section class="status-card">
-    <h3>Estado del sistema</h3>
+  <section class="status-strip">
+    <div>
+      <span class="status-label">
+        Estado del sistema
+      </span>
+
+      <span class="status-value">
+        Backend:
+        <strong [class.connected]="apiStatus() === 'ok'">
+          {{ apiStatus() }}
+        </strong>
+      </span>
+    </div>
 
     <p>
-      <strong>Backend:</strong>
-      <span [class.connected]="apiStatus() === 'ok'">
-        {{ apiStatus() }}
-      </span>
+      {{ apiMessage() }}
     </p>
-
-    <p>{{ apiMessage() }}</p>
   </section>
 </main>

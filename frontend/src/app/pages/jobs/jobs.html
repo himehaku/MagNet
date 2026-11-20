@@ -1,68 +1,192 @@
 <ion-content>
-    <section class="jobs-page">
+  <section class="jobs-page">
+
     <header class="jobs-header">
-        <h1>Ofertas laborales</h1>
-        <p>
-        Estas ofertas fueron recuperadas desde Get on Board y almacenadas en MagNet.
-        </p>
+      <h1>Ofertas laborales</h1>
+
+      <p>
+        Estas ofertas fueron recuperadas desde
+        Get on Board y almacenadas en MagNet.
+      </p>
     </header>
 
-    <div *ngIf="loading" class="state-message">
-        Cargando ofertas...
-    </div>
+    <form
+      class="jobs-filters"
+      [formGroup]="filterForm"
+      (ngSubmit)="applyFilters()"
+    >
+      <div>
+        <label for="job-search">
+          Buscar
+        </label>
 
-    <div *ngIf="errorMessage" class="state-message error">
-        <p>{{ errorMessage }}</p>
+        <input
+          id="job-search"
+          type="search"
+          formControlName="q"
+          placeholder="Ej. Angular, Java, Docker"
+        >
+      </div>
 
-        <button type="button" (click)="loadJobs()">
-        Reintentar
-        </button>
-    </div>
+      <div>
+        <label for="job-location">
+          Ubicación
+        </label>
 
-    <div *ngIf="!loading && !errorMessage && jobs.length === 0" class="state-message">
-        No hay ofertas disponibles.
-    </div>
+        <input
+          id="job-location"
+          type="text"
+          formControlName="location"
+          placeholder="Ej. Chile"
+        >
+      </div>
 
-    <div *ngIf="!loading && !errorMessage && jobs.length > 0" class="jobs-grid">
-        <article *ngFor="let job of jobs" class="job-card">
-        <div class="job-card__header">
-            <div>
-            <h2>{{ job.title }}</h2>
-            <p class="company">{{ job.company }}</p>
-            </div>
+      <div>
+        <label for="job-remote">
+          Modalidad
+        </label>
 
-            <span class="remote-badge" *ngIf="job.remote">
+        <select
+          id="job-remote"
+          formControlName="remote"
+        >
+          <option value="">
+            Todas
+          </option>
+
+          <option value="true">
             Remoto
-            </span>
+          </option>
+
+          <option value="false">
+            No remoto
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label for="job-category">
+          Categoría
+        </label>
+
+        <input
+          id="job-category"
+          type="text"
+          formControlName="category"
+          placeholder="Ej. Programming"
+        >
+      </div>
+
+      <div class="filter-actions">
+        <button type="submit">
+          Buscar
+        </button>
+
+        <button
+          type="button"
+          (click)="clearFilters()"
+        >
+          Limpiar filtros
+        </button>
+      </div>
+    </form>
+
+    <div
+      *ngIf="loading"
+      class="state-message"
+    >
+      Cargando ofertas...
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="state-message error"
+    >
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button
+        type="button"
+        (click)="applyFilters()"
+      >
+        Reintentar
+      </button>
+    </div>
+
+    <div
+      *ngIf="
+        !loading &&
+        !errorMessage &&
+        jobs.length === 0
+      "
+      class="state-message"
+    >
+      No se encontraron ofertas para los filtros seleccionados.
+    </div>
+
+    <div
+      *ngIf="
+        !loading &&
+        !errorMessage &&
+        jobs.length > 0
+      "
+      class="jobs-grid"
+    >
+      <article
+        *ngFor="let job of jobs"
+        class="job-card"
+      >
+        <div class="job-card__header">
+          <div>
+            <h2>
+              {{ job.title }}
+            </h2>
+
+            <p class="company">
+              {{ job.company }}
+            </p>
+          </div>
+
+          <span
+            class="remote-badge"
+            *ngIf="job.remote"
+          >
+            Remoto
+          </span>
         </div>
 
-        <p class="location" *ngIf="job.location">
-            {{ job.location }}
+        <p
+          class="location"
+          *ngIf="job.location"
+        >
+          {{ job.location }}
         </p>
 
         <p class="description">
-            {{ job.description }}
+          {{ job.description }}
         </p>
 
         <div class="job-meta">
-            <span *ngIf="job.category">
+          <span *ngIf="job.category">
             {{ job.category }}
-            </span>
+          </span>
 
-            <span>
+          <span>
             Fuente: {{ job.source }}
-            </span>
+          </span>
         </div>
 
         <a
-            class="job-link"
-            [href]="job.sourceUrl"
-            target="_blank"
-            rel="noopener noreferrer"
+          class="job-link"
+          [href]="job.sourceUrl"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-            Ver oferta original
+          Ver oferta original
         </a>
-        </article>
+      </article>
     </div>
-    </section>
+
+  </section>
 </ion-content>
