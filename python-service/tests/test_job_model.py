@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -17,8 +17,8 @@ def valid_job_data():
         "category": "Programming",
         "source": "Get on Board",
         "source_url": "https://www.getonbrd.com/jobs/123",
-        "published_at": datetime.now(timezone.utc),
-        "fetched_at": datetime.now(timezone.utc),
+        "published_at": datetime.now(UTC),
+        "fetched_at": datetime.now(UTC),
     }
 
 

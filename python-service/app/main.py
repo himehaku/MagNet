@@ -1,10 +1,8 @@
 import httpx
-
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from fastapi import HTTPException
-from app.services.jobs_service import fetch_jobs
 
+from app.services.jobs_service import fetch_jobs
 
 app = FastAPI(
     title="MagNet Python Service",

@@ -1,10 +1,9 @@
-import pytest
 import httpx
-
+import pytest
 from fastapi import HTTPException
+
 from app.main import get_jobs
-from app.services.jobs_service import fetch_jobs
-from app.services.jobs_service import clean_text
+from app.services.jobs_service import clean_text, fetch_jobs
 
 
 def test_clean_text_removes_html():

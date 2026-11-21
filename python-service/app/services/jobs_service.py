@@ -1,11 +1,10 @@
-from datetime import datetime, timezone
 import re
+from datetime import UTC, datetime
+from time import perf_counter
 
 import httpx
 
 from app.models.job import Job
-from time import perf_counter
-
 
 GETONBOARD_URL = (
     "https://www.getonbrd.com/api/v0/categories/programming/jobs"
@@ -120,7 +119,7 @@ async def fetch_jobs(limit: int = 20) -> tuple[list[Job], dict]:
         if published_timestamp:
             published_at = datetime.fromtimestamp(
                 published_timestamp,
-                tz=timezone.utc,
+                tz=UTC,
             )
 
         company_data = (
@@ -154,7 +153,7 @@ async def fetch_jobs(limit: int = 20) -> tuple[list[Job], dict]:
                 source_url=source_url,
                 published_at=published_at,
                 fetched_at=datetime.now(
-                    timezone.utc
+                    UTC
                 ),
             )
         )
