@@ -272,3 +272,73 @@ async def test_get_jobs_returns_502_on_connection_error(monkeypatch):
     assert exc_info.value.status_code == 502
     assert "Get on Board" in exc_info.value.detail
     assert "Traceback" not in exc_info.value.detail
+
+@pytest.mark.anyio
+async def test_fetch_jobs_success(monkeypatch):
+    class SuccessFakeResponse:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {
+                "data": [
+                    {
+                        "id": "job-success-1",
+                        "attributes": {
+                            "title": "Python Developer",
+                            "description": "<p>Desarrollo con Python y FastAPI</p>",
+                            "countries": ["Chile"],
+                            "remote_modality": "fully_remote",
+                            "remote": True,
+                            "category_name": "Programming",
+                            "published_at": 1760000000,
+                            "company": {
+                                "data": {
+                                    "id": "company-success"
+                                }
+                            },
+                        },
+                        "links": {
+                            "public_url": (
+                                "https://www.getonbrd.com/jobs/"
+                                "job-success-1"
+                            )
+                        },
+                    }
+                ]
+            }
+
+    class SuccessFakeAsyncClient:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, exc_type, exc, tb):
+            pass
+
+        async def get(self, url):
+            return SuccessFakeResponse()
+
+    monkeypatch.setattr(
+        "app.services.jobs_service.httpx.AsyncClient",
+        SuccessFakeAsyncClient,
+    )
+
+    jobs, metrics = await fetch_jobs(limit=20)
+
+    assert len(jobs) == 1
+
+    job = jobs[0]
+
+    assert job.external_id == "job-success-1"
+    assert job.title == "Python Developer"
+    assert job.description == "Desarrollo con Python y FastAPI"
+    assert job.source == "Get on Board"
+
+    assert metrics["total_received"] == 1
+    assert metrics["valid"] == 1
+    assert metrics["invalid"] == 0
+    assert metrics["duplicates"] == 0
+    assert metrics["processing_time_ms"] >= 0    
