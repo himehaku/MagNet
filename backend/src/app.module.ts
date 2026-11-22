@@ -25,32 +25,21 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule, UsersModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const password = configService.get<string>('DB_PASSWORD');
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
+        autoLoadEntities: true,
 
-        console.log('DB_HOST:', configService.get<string>('DB_HOST'));
-        console.log('DB_PORT:', configService.get<number>('DB_PORT'));
-        console.log('DB_USERNAME:', configService.get<string>('DB_USERNAME'));
-        console.log('DB_DATABASE:', configService.get<string>('DB_DATABASE'));
-        console.log('DB_PASSWORD definida:', password !== undefined);
-        console.log('Longitud de DB_PASSWORD:', password?.length);
+        migrations: [
+          __dirname + '/database/migrations/*{.ts,.js}',
+        ],
 
-        return {
-          type: 'postgres',
-          host: configService.get<string>('DB_HOST'),
-          port: configService.get<number>('DB_PORT'),
-          username: configService.get<string>('DB_USERNAME'),
-          password,
-          database: configService.get<string>('DB_DATABASE'),
-          autoLoadEntities: true,
-
-          migrations: [
-            __dirname + '/database/migrations/*{.ts,.js}',
-          ],
-
-          synchronize: false,
-        };
-      },
+        synchronize: false,
+      }),
     }),
 
     ObserveModule.forRoot({
