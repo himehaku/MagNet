@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 interface HealthResponse {
   status: string;
@@ -23,7 +24,7 @@ export class Home {
 
   constructor() {
     this.http
-      .get<HealthResponse>('http://localhost:3000/health')
+      .get<HealthResponse>(`${environment.apiUrl}/health`)
       .subscribe({
         next: (response) => {
           this.apiStatus.set(response.status);

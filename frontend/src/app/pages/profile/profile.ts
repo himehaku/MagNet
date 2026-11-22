@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 interface ProfileResponse {
   userId: number;
@@ -33,7 +34,7 @@ export class Profile {
     });
 
     this.http
-      .get<ProfileResponse>('http://localhost:3000/auth/profile', {
+      .get<ProfileResponse>(`${environment.apiUrl}/auth/profile`, {
         headers
       })
       .subscribe({

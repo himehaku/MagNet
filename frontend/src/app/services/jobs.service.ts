@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 import { Job } from '../models/job.model';
 
@@ -17,7 +18,7 @@ export interface JobFilters {
 export class JobsService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://localhost:3000/jobs';
+  private readonly apiUrl = `${environment.apiUrl}/jobs`;
 
   getJobs(filters: JobFilters = {}): Observable<Job[]> {
     let params = new HttpParams();

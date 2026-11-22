@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 interface LoginResponse {
   accessToken: string;
@@ -39,7 +40,7 @@ export class Login {
     this.loading.set(true);
 
     this.http
-      .post<LoginResponse>('http://localhost:3000/auth/login', {
+      .post<LoginResponse>(`${environment.apiUrl}/auth/login`, {
         email: this.email,
         password: this.password
       })

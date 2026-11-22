@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 interface RegisterResponse {
   id: number;
@@ -51,7 +52,7 @@ export class Register {
     this.loading.set(true);
 
     this.http
-      .post<RegisterResponse>('http://localhost:3000/users', {
+      .post<RegisterResponse>(`${environment.apiUrl}/users`, {
         name: this.name,
         email: this.email,
         password: this.password
