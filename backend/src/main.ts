@@ -8,7 +8,10 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:4200',
+    origin: [
+      'http://localhost:4200',
+      process.env.FRONTEND_URL ?? 'http://localhost:4200',
+    ],
   });
 
   app.useGlobalPipes(
