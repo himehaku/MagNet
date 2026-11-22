@@ -112,6 +112,7 @@ jobs:
       - backend
       - python
       - integration
+      - security
 
     steps:
       - name: Checkout repository
@@ -177,3 +178,18 @@ jobs:
       - name: Run NestJS FastAPI integration test
         working-directory: backend
         run: npm run test:e2e -- --runInBand test/jobs.integration.e2e-spec.ts
+
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan repository for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
