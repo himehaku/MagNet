@@ -1,152 +1,124 @@
 # MagNet
 
-MagNet es una aplicación web orientada a personas en búsqueda de empleo. Su objetivo es centralizar ofertas laborales obtenidas desde fuentes externas y, progresivamente, analizarlas según el perfil, habilidades, experiencia y preferencias de cada usuario.
+MagNet es una plataforma web orientada a personas en búsqueda de empleo. Su objetivo es centralizar ofertas laborales reales y ayudar al usuario a identificar cuáles se ajustan mejor a su perfil mediante un mecanismo de compatibilidad explicable.
 
-Actualmente el proyecto permite recuperar ofertas laborales reales desde **Get on Board**, normalizarlas mediante un servicio Python, almacenarlas en PostgreSQL a través de NestJS y visualizarlas desde un frontend desarrollado con Angular e Ionic.
+El sistema recupera ofertas desde **Get on Board**, procesa y normaliza la información mediante un servicio especializado en Python, la almacena en PostgreSQL a través de NestJS y la presenta desde una aplicación desarrollada con Angular e Ionic.
 
-La capacidad de compatibilidad laboral forma parte de la evolución prevista del proyecto y todavía no se considera completamente implementada.
+Además, MagNet permite mantener un perfil profesional, analizar un CV en formato PDF para detectar habilidades y comparar dichas habilidades con los requisitos identificados en cada oferta.
 
-## Descripción del problema
+---
 
-Existe una gran cantidad de ofertas laborales con requisitos y características diversas, lo que dificulta a las personas en búsqueda de empleo identificar rápidamente aquellas oportunidades que se ajustan mejor a su perfil, habilidades, intereses y preferencias.
+## Problema
 
-MagNet busca reducir este problema mediante la centralización de ofertas y, posteriormente, mediante mecanismos de compatibilidad explicables entre el perfil del usuario y cada oportunidad laboral.
+Las personas en búsqueda de empleo deben revisar grandes cantidades de ofertas con requisitos, tecnologías y características diferentes.
+
+Esto dificulta responder rápidamente preguntas como:
+
+- ¿qué ofertas coinciden mejor con mi perfil?;
+- ¿qué habilidades mías aparecen en una oferta?;
+- ¿qué requisitos me faltan?;
+- ¿qué oportunidades debería revisar primero?
+
+MagNet busca reducir este esfuerzo mediante la centralización de ofertas y un mecanismo de comparación transparente entre el perfil del usuario y las características detectadas en cada oportunidad.
+
+---
 
 ## Usuarios objetivo
 
-Personas que se encuentren en búsqueda activa de empleo y utilicen plataformas web para consultar oportunidades laborales, independientemente de su área profesional o nivel de experiencia.
+MagNet está dirigido a personas en búsqueda activa de empleo que utilizan plataformas digitales para consultar oportunidades laborales.
 
-La fuente inicial utilizada actualmente tiene una mayor concentración de ofertas relacionadas con tecnología y trabajo digital, por lo que la cobertura de otras áreas dependerá de la incorporación futura de nuevas fuentes.
+Actualmente la fuente utilizada, Get on Board, tiene una concentración importante de ofertas relacionadas con tecnología y trabajo digital. Por esta razón, la cobertura actual del sistema presenta un sesgo hacia ese tipo de perfiles.
 
-## Objetivo general
+La arquitectura permite incorporar nuevas fuentes en el futuro.
 
-Desarrollar una plataforma que permita consultar oportunidades laborales reales y que evolucione hacia la generación de recomendaciones personalizadas, indicando el nivel de compatibilidad entre una oferta y el perfil del usuario.
+---
 
-## Estado actual del proyecto
+# Funcionalidades principales
 
-Actualmente se encuentra implementado el flujo principal de recuperación y visualización de ofertas:
+## Autenticación
 
-```text
-Get on Board
-    ↓
-FastAPI / Python
-    ↓
-NestJS
-    ↓
-PostgreSQL
-    ↓
-Angular / Ionic
-```
-
-Entre las capacidades actualmente implementadas se encuentran:
-
-- recuperación de ofertas reales desde Get on Board;
-- normalización básica de los datos mediante FastAPI;
-- importación de ofertas desde NestJS;
-- persistencia de ofertas en PostgreSQL;
-- actualización de ofertas ya existentes;
-- prevención de duplicados mediante la combinación de fuente e identificador externo;
-- consulta de ofertas almacenadas;
-- visualización de ofertas desde Angular/Ionic;
-- redirección hacia la publicación original;
-- registro e inicio de sesión de usuarios;
-- manejo controlado de indisponibilidad del servicio Python.
-
-Algunas funcionalidades definidas en el alcance general todavía se encuentran en desarrollo o pendientes.
-
-## Alcance
-
-### Incluido en el alcance general
-
-MagNet contempla:
-
-- crear y gestionar cuentas de usuario;
-- gestionar información de perfil profesional;
-- registrar áreas de interés y preferencias laborales;
-- consultar ofertas obtenidas desde fuentes web externas;
-- filtrar ofertas según distintos criterios;
-- calcular compatibilidad entre perfiles y ofertas;
-- identificar requisitos de una oferta que no estén presentes en el perfil;
-- redirigir al usuario al sitio original para consultar o postular a una oferta.
-
-No todas estas funcionalidades se encuentran implementadas actualmente.
-
-### Fuera de alcance
-
-MagNet no contempla:
-
-- realizar directamente procesos de contratación;
-- gestionar la postulación dentro de los portales laborales externos;
-- publicar ofertas laborales propias;
-- realizar postulaciones automáticas en nombre del usuario;
-- modificar información de una oferta externa.
-
-## Funcionalidades implementadas
-
-### Ofertas laborales
-
-Actualmente el sistema permite:
-
-- recuperar ofertas laborales reales;
-- persistir ofertas en PostgreSQL;
-- consultar ofertas almacenadas;
-- actualizar registros existentes durante nuevas importaciones;
-- evitar duplicados por fuente e identificador externo;
-- visualizar información básica de las ofertas;
-- acceder a la publicación original.
-
-### Usuarios
-
-El backend dispone actualmente de funcionalidades básicas relacionadas con:
+El sistema permite:
 
 - registro de usuarios;
-- almacenamiento seguro del hash de contraseña;
-- inicio de sesión y autenticación implementada en el backend.
+- inicio de sesión;
+- autenticación mediante JWT;
+- acceso protegido al perfil del usuario;
+- almacenamiento seguro del hash de contraseña.
 
-### Manejo de errores
+---
 
-NestJS maneja de forma controlada errores de comunicación con FastAPI.
+## Perfil profesional
 
-La indisponibilidad temporal del servicio Python no elimina las ofertas que ya se encuentran almacenadas en PostgreSQL.
+Cada usuario puede mantener información como:
 
-## Funcionalidades pendientes o en desarrollo
+- ubicación;
+- habilidades;
+- áreas de interés;
+- años de experiencia;
+- preferencia por trabajo remoto.
 
-Las siguientes capacidades forman parte del proyecto, pero no deben considerarse completamente implementadas todavía:
+Los cambios se almacenan en PostgreSQL y posteriormente son utilizados por el mecanismo de compatibilidad.
 
-- perfil profesional completo;
-- habilidades del usuario;
-- preferencias laborales avanzadas;
-- filtros completos de ofertas;
-- índice de compatibilidad laboral;
-- identificación automática de requisitos faltantes;
-- ranking personalizado de ofertas;
-- expiración automática de ofertas;
-- actualización programada de ofertas;
-- procesamiento avanzado de texto;
-- adaptación automática del CV.
+El usuario mantiene el control sobre la información que forma parte de su perfil.
 
-## Funcionalidades avanzadas futuras
+---
 
-Se contempla como evolución posterior:
+## Análisis de CV
 
-- transformación del CV a formato LaTeX;
-- adaptación del CV a una oferta específica;
-- generación de recomendaciones sobre mejoras del CV;
-- análisis del CV para mejorar su compatibilidad con sistemas ATS (*Applicant Tracking Systems*);
-- sugerencias sobre estructura, secciones, palabras clave y formato para facilitar el procesamiento automático por ATS;
-- comparación entre el contenido del CV y los requisitos de una oferta para identificar términos o competencias relevantes que podrían destacarse;
-- autorización explícita del usuario antes de realizar modificaciones;
-- prohibición de inventar experiencia, conocimientos o antecedentes que el usuario no haya proporcionado.
+MagNet permite cargar un CV en formato PDF.
 
-Las mejoras orientadas a ATS deberán conservar la veracidad del CV. MagNet podrá reorganizar, resumir o destacar información existente, pero no generar experiencia, habilidades o antecedentes falsos con el objetivo de aumentar artificialmente la coincidencia con una oferta.
+El flujo actual es:
 
-## Fuente de información web
+```text
+Usuario
+   ↓
+Angular / Ionic
+   ↓
+NestJS
+   ↓
+FastAPI
+   ↓
+Extracción de texto del PDF
+   ↓
+Detección de habilidades
+   ↓
+Habilidades sugeridas al usuario
+```
 
-La fuente externa inicial seleccionada es **Get on Board**.
+Las habilidades detectadas **no se incorporan automáticamente al perfil**.
 
-MagNet utiliza su API pública para recuperar ofertas laborales reales.
+El sistema presenta las habilidades encontradas y el usuario decide si desea agregarlas y posteriormente guardar los cambios.
 
-La integración conserva información de procedencia como:
+Esta decisión permite conservar control humano sobre los datos utilizados por el sistema adaptativo.
+
+Actualmente:
+
+- se aceptan archivos PDF;
+- existe validación de tipo de archivo;
+- existe un límite de tamaño para el archivo;
+- la extracción utiliza `pypdf`;
+- la detección de habilidades utiliza un catálogo normalizado de tecnologías y expresiones conocidas.
+
+---
+
+# Ofertas laborales
+
+MagNet utiliza actualmente la API pública de **Get on Board** como fuente externa.
+
+El sistema permite:
+
+- recuperar ofertas reales;
+- limpiar y normalizar información;
+- detectar habilidades presentes en las ofertas;
+- evitar duplicados;
+- actualizar ofertas previamente importadas;
+- almacenar ofertas en PostgreSQL;
+- consultar ofertas mediante NestJS;
+- filtrar resultados;
+- visualizar las ofertas desde Angular/Ionic;
+- acceder a la publicación original.
+
+Las ofertas conservan información de procedencia como:
 
 - fuente;
 - identificador externo;
@@ -154,109 +126,246 @@ La integración conserva información de procedencia como:
 - fecha de publicación cuando está disponible;
 - fecha de recuperación.
 
-El sistema utiliza Get on Board únicamente como fuente inicial. La arquitectura está diseñada para permitir la incorporación futura de otras fuentes mediante adaptadores y un modelo normalizado común.
+La combinación de fuente e identificador externo permite evitar duplicados durante nuevas importaciones.
 
-La política de uso de esta fuente se encuentra documentada en:
+---
+
+# Compatibilidad laboral
+
+MagNet incluye una capacidad adaptativa que compara las habilidades guardadas en el perfil del usuario con las habilidades detectadas en cada oferta.
+
+Actualmente se consideran principalmente:
 
 ```text
-docs/external-source-policy.md
+habilidades del usuario
+        +
+habilidades detectadas en la oferta
 ```
 
-La estrategia de actualización de ofertas se encuentra documentada en:
+El porcentaje se calcula sobre los requisitos detectados en la oferta:
 
 ```text
-docs/jobs-update-strategy.md
+compatibilidad =
+habilidades coincidentes
+──────────────────────────── × 100
+habilidades detectadas en la oferta
 ```
 
-## Arquitectura
+Por ejemplo:
 
-MagNet utiliza una arquitectura distribuida compuesta actualmente por cuatro componentes principales.
+```text
+Perfil:
+Angular, Git, Java
 
-### Frontend
+Oferta:
+Angular, Git, Java, Spring, Docker
+
+Coincidencias:
+Angular, Git, Java
+
+Faltantes:
+Spring, Docker
+
+Compatibilidad:
+60 %
+```
+
+El sistema devuelve:
+
+- porcentaje de compatibilidad;
+- habilidades coincidentes;
+- habilidades faltantes;
+- explicación textual del resultado.
+
+La interfaz muestra esta información dentro de cada oferta para que el usuario pueda comprender por qué obtuvo determinado resultado.
+
+Las ofertas pueden utilizar esta información para priorizar resultados relevantes para el perfil autenticado.
+
+---
+
+## Explicabilidad y control del usuario
+
+MagNet evita presentar la compatibilidad como una decisión absoluta.
+
+El porcentaje corresponde solamente a las variables actualmente procesadas por el sistema.
+
+El usuario puede:
+
+- modificar manualmente sus habilidades;
+- revisar habilidades obtenidas desde su CV;
+- decidir cuáles incorporar;
+- modificar sus preferencias;
+- revisar tanto coincidencias como requisitos faltantes.
+
+El resultado debe interpretarse como una ayuda para priorizar ofertas y no como una evaluación definitiva de la capacidad profesional del usuario.
+
+---
+
+# Limitaciones de la compatibilidad
+
+La implementación actual utiliza extracción determinista basada en patrones y habilidades conocidas.
+
+Por lo tanto:
+
+- una tecnología puede no detectarse si no forma parte del catálogo;
+- una descripción ambigua puede producir detecciones imperfectas;
+- una habilidad mencionada no necesariamente representa un requisito obligatorio;
+- requisitos deseables y obligatorios todavía no reciben pesos diferentes;
+- tecnologías relacionadas pueden requerir normalización adicional;
+- el porcentaje no representa la probabilidad real de ser contratado;
+- experiencia, estudios y habilidades blandas todavía no tienen el mismo peso que las habilidades técnicas.
+
+Estas limitaciones forman parte de la evaluación del mecanismo adaptativo y deben considerarse al interpretar los resultados.
+
+---
+
+# Arquitectura
+
+MagNet utiliza una arquitectura distribuida.
+
+```text
+                    ┌──────────────────┐
+                    │   Get on Board   │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Python / FastAPI │
+                    │                  │
+                    │ - extracción     │
+                    │ - normalización  │
+                    │ - skills         │
+                    │ - compatibilidad │
+                    └────────┬─────────┘
+                             │
+                             ▼
+┌──────────────────┐   ┌──────────────────┐
+│ Angular / Ionic  │──▶│ NestJS           │
+│                  │◀──│                  │
+│ Frontend         │   │ API principal    │
+└──────────────────┘   └────────┬─────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │ PostgreSQL       │
+                       └──────────────────┘
+```
+
+El frontend se comunica únicamente con NestJS.
+
+NestJS funciona como API principal, administra autenticación, usuarios, persistencia e integración con el servicio Python.
+
+FastAPI funciona como un servicio especializado para procesamiento de información y no como API directa del frontend.
+
+---
+
+# Componentes
+
+## Frontend
 
 Tecnologías:
 
 - Angular;
-- Ionic.
+- Ionic;
+- TypeScript.
 
 Responsabilidades:
 
-- interfaz de usuario;
 - navegación;
-- autenticación desde el cliente;
-- visualización de ofertas;
-- interacción futura con perfiles y compatibilidad.
+- autenticación;
+- gestión del perfil;
+- carga de CV;
+- consulta y filtrado de ofertas;
+- visualización de compatibilidad;
+- redirección hacia la fuente original.
 
-El frontend se comunica únicamente con NestJS.
+---
 
-### Backend principal
+## Backend
 
-Tecnología:
+Tecnologías:
 
-- NestJS.
+- NestJS;
+- TypeScript;
+- TypeORM.
 
 Responsabilidades:
 
 - API REST principal;
-- autenticación y autorización;
-- lógica de aplicación;
-- gestión de usuarios;
+- autenticación JWT;
+- usuarios;
+- perfiles;
 - persistencia;
-- acceso a PostgreSQL;
+- ofertas laborales;
 - integración con FastAPI;
-- manejo de errores hacia el frontend.
+- compatibilidad personalizada;
+- manejo de errores.
 
-NestJS es el propietario principal de la persistencia del sistema.
+NestJS es el propietario principal de la persistencia.
 
-### Servicio Python
+---
 
-Tecnologías:
+## Servicio Python
+
+Tecnologías principales:
 
 - Python;
-- FastAPI.
+- FastAPI;
+- HTTPX;
+- pypdf.
 
-Responsabilidades actuales:
+Responsabilidades:
 
 - comunicación con Get on Board;
 - recuperación de ofertas;
-- transformación y normalización de información.
+- limpieza;
+- normalización;
+- deduplicación previa;
+- extracción de habilidades;
+- procesamiento de CV;
+- cálculo determinista de compatibilidad.
 
-Responsabilidades previstas:
+---
 
-- procesamiento de texto;
-- extracción de características;
-- cálculo de compatibilidad laboral.
-
-FastAPI funciona como un servicio especializado y no como una segunda API pública para el frontend.
-
-### Base de datos
+## Base de datos
 
 Tecnología:
 
 - PostgreSQL.
 
-Actualmente contiene información asociada a:
+Almacena actualmente:
 
 - usuarios;
-- ofertas laborales.
+- información de perfil;
+- habilidades;
+- intereses;
+- preferencias;
+- ofertas laborales;
+- habilidades detectadas por oferta.
 
-NestJS administra la persistencia mediante TypeORM y migraciones.
+NestJS administra el esquema mediante TypeORM y migraciones.
 
-## Flujo de recuperación de ofertas
+---
 
-El flujo implementado actualmente es:
+# Flujo de información web
+
+La recuperación de ofertas funciona de la siguiente forma:
 
 ```text
 Get on Board
       ↓
 FastAPI
       ↓
+limpieza / normalización
+      ↓
+extracción de habilidades
+      ↓
 NestJS
       ↓
 PostgreSQL
 ```
 
-Posteriormente, para mostrar las ofertas:
+Posteriormente:
 
 ```text
 PostgreSQL
@@ -268,9 +377,408 @@ Angular / Ionic
 Usuario
 ```
 
-## Documentación de arquitectura
+Para usuarios autenticados también existe el flujo:
 
-Los principales documentos técnicos se encuentran en:
+```text
+Perfil del usuario
+      +
+Oferta laboral
+      ↓
+NestJS
+      ↓
+FastAPI
+      ↓
+Compatibilidad
+      ↓
+Angular / Ionic
+```
+
+---
+
+# API principal
+
+Algunos endpoints relevantes del backend son:
+
+```text
+GET    /health
+
+POST   /auth/register
+POST   /auth/login
+GET    /auth/profile
+PATCH  /auth/profile
+POST   /auth/profile/cv
+
+GET    /jobs
+POST   /jobs/import
+
+GET    /compatibility/jobs/:jobId
+```
+
+El endpoint de perfil, análisis de CV y compatibilidad personalizada requieren autenticación mediante JWT.
+
+---
+
+# Servicio Python
+
+Endpoints relevantes:
+
+```text
+GET  /health
+
+GET  /jobs/fetch
+POST /skills/extract
+POST /cv/analyze
+POST /compatibility
+```
+
+Estos endpoints soportan las operaciones especializadas utilizadas por el backend.
+
+---
+
+# Filtros de ofertas
+
+La interfaz permite filtrar ofertas según parámetros como:
+
+- texto;
+- ubicación;
+- modalidad remota;
+- categoría.
+
+NestJS obtiene los resultados persistidos desde PostgreSQL y el frontend no consulta directamente la fuente externa.
+
+---
+
+# Manejo de errores
+
+La arquitectura mantiene separada la disponibilidad de las ofertas persistidas de la disponibilidad de la fuente externa.
+
+Si temporalmente Get on Board o FastAPI no pueden recuperar información nueva:
+
+- las ofertas previamente almacenadas permanecen disponibles;
+- el backend controla errores de comunicación;
+- el frontend puede continuar consultando información existente.
+
+Esto evita que una falla temporal de la fuente externa elimine los datos ya recuperados.
+
+---
+
+# Seguridad
+
+Entre las medidas implementadas se encuentran:
+
+- contraseñas almacenadas mediante hash;
+- autenticación JWT;
+- rutas de perfil protegidas;
+- validación de DTOs;
+- manejo de variables sensibles mediante variables de entorno;
+- `.env` excluido del repositorio;
+- escaneo de secretos en CI;
+- auditoría de dependencias Python;
+- auditoría de dependencias del ecosistema Node;
+- análisis de imágenes Docker;
+- construcción reproducible mediante contenedores.
+
+Los secretos de producción y staging no deben almacenarse en el repositorio.
+
+---
+
+# Privacidad y ética
+
+MagNet procesa información profesional proporcionada por el usuario.
+
+El sistema debe evitar utilizar esta información para decisiones automatizadas opacas.
+
+Principios aplicados actualmente:
+
+- el usuario controla las habilidades almacenadas;
+- las habilidades obtenidas desde un CV requieren confirmación;
+- el resultado de compatibilidad es explicable;
+- se muestran requisitos coincidentes y faltantes;
+- no se realizan postulaciones automáticas;
+- no se modifica información de una oferta externa;
+- no se deben inventar habilidades, experiencia o antecedentes del usuario.
+
+La información derivada del CV se utiliza como ayuda para completar el perfil, no como una fuente automática e incuestionable.
+
+---
+
+# Sesgos y limitaciones
+
+Actualmente existe un sesgo importante asociado a la fuente de datos.
+
+Get on Board concentra gran parte de sus ofertas en:
+
+- tecnología;
+- desarrollo de software;
+- productos digitales;
+- áreas relacionadas.
+
+Por lo tanto, MagNet no debe asumir que la distribución actual de ofertas representa todo el mercado laboral.
+
+El catálogo utilizado para detectar habilidades también puede favorecer tecnologías explícitamente incluidas en sus patrones.
+
+La incorporación futura de nuevas fuentes y una evaluación más amplia del extractor permitiría reducir estas limitaciones.
+
+---
+
+# Testing
+
+El proyecto dispone de pruebas automatizadas para los distintos componentes.
+
+## Backend
+
+Desde:
+
+```bash
+cd backend
+```
+
+Ejecutar:
+
+```bash
+npm test
+npm run build
+```
+
+---
+
+## Python
+
+Desde:
+
+```bash
+cd python-service
+```
+
+Ejecutar:
+
+```bash
+pytest -q
+python -m ruff check .
+python -m pip_audit -r requirements.txt
+```
+
+---
+
+## Frontend
+
+Desde:
+
+```bash
+cd frontend
+```
+
+Ejecutar:
+
+```bash
+npm test -- --watch=false
+npm run build
+```
+
+Actualmente las suites utilizadas por el pipeline se encuentran en estado verde.
+
+---
+
+# Integración continua
+
+El repositorio utiliza GitHub Actions.
+
+El pipeline verifica, entre otros aspectos:
+
+- lint;
+- tests;
+- builds;
+- dependencias;
+- secretos;
+- imágenes Docker;
+- vulnerabilidades;
+- validación de Terraform.
+
+El objetivo es impedir que cambios que no superen los controles definidos sean considerados candidatos válidos para despliegue.
+
+---
+
+# Docker
+
+Los componentes principales pueden ejecutarse mediante Docker Compose.
+
+Desde la raíz:
+
+```bash
+docker compose up -d
+```
+
+Para reconstruir los servicios:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+Para revisar su estado:
+
+```bash
+docker compose ps
+```
+
+Para detenerlos:
+
+```bash
+docker compose down
+```
+
+Los servicios principales son:
+
+```text
+frontend
+backend
+python-service
+postgres
+```
+
+---
+
+# Ejecución local
+
+## 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/himehaku/MagNet.git
+cd MagNet
+```
+
+---
+
+## 2. Configurar variables
+
+Crear el archivo local de variables utilizando como referencia:
+
+```text
+.env.example
+```
+
+Los secretos reales no deben versionarse.
+
+Entre las configuraciones de comunicación relevantes se encuentran:
+
+```text
+PYTHON_SERVICE_URL
+FRONTEND_URL
+```
+
+además de las variables necesarias para PostgreSQL, autenticación y los distintos servicios.
+
+---
+
+## 3. Iniciar servicios
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+## 4. Verificar backend
+
+```text
+http://localhost:3000/health
+```
+
+---
+
+## 5. Verificar servicio Python
+
+```text
+http://localhost:8000/health
+```
+
+---
+
+## 6. Acceder al frontend
+
+```text
+http://localhost:4200
+```
+
+---
+
+# Importación de ofertas
+
+En desarrollo local puede solicitarse una importación desde el backend:
+
+```text
+POST /jobs/import?limit=20
+```
+
+El backend solicita las ofertas al servicio Python, las normaliza y finalmente realiza inserciones o actualizaciones en PostgreSQL.
+
+El parámetro `limit` permite controlar la cantidad solicitada a la fuente externa.
+
+---
+
+# Staging
+
+MagNet dispone de un entorno desplegado para evaluación.
+
+## Frontend
+
+```text
+https://magnet-frontend-fiqd.onrender.com
+```
+
+## Backend
+
+```text
+https://magnet-backend-g7xh.onrender.com
+```
+
+PostgreSQL y el servicio Python también se ejecutan como servicios asociados al entorno de staging.
+
+Antes de una entrega se verifica el flujo:
+
+```text
+registro / login
+      ↓
+perfil
+      ↓
+carga de CV
+      ↓
+confirmación de habilidades
+      ↓
+consulta de ofertas
+      ↓
+compatibilidad
+      ↓
+oferta original
+```
+
+---
+
+# Infraestructura
+
+El repositorio contiene configuración de infraestructura en:
+
+```text
+infra/
+```
+
+La configuración Terraform forma parte del proceso de validación DevSecOps.
+
+El pipeline comprueba formato y validez de la configuración.
+
+La infraestructura actual no debe interpretarse como una representación completa de todos los recursos administrados automáticamente mediante IaC; constituye una de las áreas con posibilidades de evolución del proyecto.
+
+---
+
+# Documentación técnica
+
+Los documentos de arquitectura se encuentran principalmente en:
+
+```text
+docs/architecture/
+```
+
+Entre ellos:
 
 ```text
 docs/architecture/context-diagram.md
@@ -278,39 +786,28 @@ docs/architecture/container-diagram.md
 docs/architecture/data-model.md
 ```
 
-Las decisiones arquitectónicas se encuentran registradas en:
+Las decisiones arquitectónicas se documentan mediante ADR:
 
 ```text
 docs/adr/ADR-001-get-on-board-source.md
 docs/adr/ADR-002-nestjs-fastapi-separation.md
 ```
 
-## Capacidad adaptativa
+También existen documentos dedicados a la fuente externa y estrategia de actualización:
 
-La capacidad adaptativa de MagNet tiene como objetivo comparar información del perfil del usuario con los requisitos de una oferta laboral.
+```text
+docs/external-source-policy.md
+docs/jobs-update-strategy.md
+```
 
-Se proyecta utilizar información como:
+---
 
-- habilidades;
-- experiencia;
-- áreas de interés;
-- ubicación;
-- preferencias laborales;
-- requisitos extraídos desde la oferta.
-
-El resultado previsto incluye:
-
-- un índice de compatibilidad;
-- factores que contribuyeron al resultado;
-- requisitos coincidentes;
-- requisitos faltantes.
-
-Esta funcionalidad todavía se encuentra en etapa de diseño y desarrollo y no debe considerarse terminada.
-
-## Estructura general del repositorio
+# Estructura del repositorio
 
 ```text
 MagNet/
+├── .github/
+│   └── workflows/
 ├── backend/
 ├── frontend/
 ├── python-service/
@@ -324,12 +821,88 @@ MagNet/
 └── README.md
 ```
 
-## Seguimiento del desarrollo
+---
 
-El desarrollo y estado de las tareas del proyecto se registran en:
+# Fuera de alcance
+
+MagNet no realiza actualmente:
+
+- procesos de contratación;
+- publicación de ofertas propias;
+- postulaciones automáticas;
+- postulación dentro de MagNet;
+- modificación de publicaciones externas;
+- decisiones automáticas de contratación;
+- invención de experiencia o habilidades para mejorar artificialmente la compatibilidad.
+
+El usuario siempre es redirigido hacia la publicación original para continuar el proceso.
+
+---
+
+# Posibles evoluciones
+
+Entre las extensiones consideradas se encuentran:
+
+- incorporación de nuevas fuentes;
+- extracción más avanzada de requisitos;
+- diferenciación entre requisitos obligatorios y deseables;
+- ponderación por experiencia;
+- mejora del ranking personalizado;
+- procesamiento semántico;
+- análisis avanzado de CV;
+- recomendaciones de mejora del CV;
+- optimización de estructura para sistemas ATS;
+- adaptación controlada del CV a una oferta;
+- comparación de resultados mediante métricas adicionales.
+
+Cualquier modificación futura de un CV deberá respetar la información proporcionada por el usuario y no inventar antecedentes, experiencia ni conocimientos.
+
+---
+
+# Seguimiento del desarrollo
+
+El backlog técnico y académico se encuentra en:
 
 ```text
 PLAN_DESARROLLO.md
 ```
 
-Este documento funciona como backlog y referencia central para identificar tareas completadas, en desarrollo, pendientes o bloqueadas.
+Este documento registra tareas, dependencias, prioridades y criterios de aceptación.
+
+---
+
+# Estado actual
+
+Actualmente MagNet dispone de un flujo funcional que integra:
+
+```text
+Fuente externa real
+        ↓
+procesamiento Python
+        ↓
+NestJS
+        ↓
+PostgreSQL
+        ↓
+Angular / Ionic
+```
+
+junto con:
+
+```text
+Usuario
+   ↓
+Perfil
+   ↓
+CV
+   ↓
+Habilidades confirmadas
+   ↓
+Comparación con ofertas
+   ↓
+Compatibilidad explicable
+```
+
+El proyecto cuenta además con pruebas automatizadas, contenedores, pipeline CI, controles de seguridad, staging y documentación técnica.
+
+El objetivo de MagNet no es decidir por el usuario, sino reducir el esfuerzo necesario para identificar oportunidades relevantes y explicar qué aspectos de su perfil coinciden o no con una oferta.
