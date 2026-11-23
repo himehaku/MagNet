@@ -8,11 +8,15 @@ describe('AuthController', () => {
 
   let authService: {
     login: jest.Mock;
+    getProfile: jest.Mock;
+    updateProfile: jest.Mock;
   };
 
   beforeEach(async () => {
     authService = {
       login: jest.fn(),
+      getProfile: jest.fn(),
+      updateProfile: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -64,21 +68,84 @@ describe('AuthController', () => {
     );
   });
 
-  it('should return authenticated user profile', () => {
+  it('should return authenticated user profile', async () => {
     const request = {
       user: {
-        id: 1,
-        name: 'Ana',
+        userId: 1,
         email: 'ana@test.com',
       },
     };
 
-    const result = controller.getProfile(
+    const expectedProfile = {
+      id: 1,
+      name: 'Ana',
+      email: 'ana@test.com',
+      location: null,
+      skills: [],
+      interests: [],
+      experienceYears: 0,
+      preferredRemote: false,
+    };
+
+    authService.getProfile.mockResolvedValue(
+      expectedProfile,
+    );
+
+    const result = await controller.getProfile(
       request,
     );
 
+    expect(
+      authService.getProfile,
+    ).toHaveBeenCalledWith(1);
+
     expect(result).toEqual(
-      request.user,
+      expectedProfile,
     );
   });
+
+  it('should update authenticated user profile', async () => {
+    const request = {
+      user: {
+        userId: 1,
+        email: 'ana@test.com',
+      },
+    };
+
+    const updateProfileDto = {
+      location: 'Viña del Mar',
+      skills: ['Angular', 'NestJS'],
+      interests: ['Web Development'],
+      experienceYears: 2,
+      preferredRemote: true,
+    };
+
+    const expectedResult = {
+      id: 1,
+      name: 'Ana',
+      email: 'ana@test.com',
+      ...updateProfileDto,
+    };
+
+    authService.updateProfile.mockResolvedValue(
+      expectedResult,
+    );
+
+    const result = await controller.updateProfile(
+      request,
+      updateProfileDto,
+    );
+
+    expect(
+      authService.updateProfile,
+    ).toHaveBeenCalledWith(
+      1,
+      updateProfileDto,
+    );
+
+    expect(result).toEqual(
+      expectedResult,
+    );
+  });
+    
 });

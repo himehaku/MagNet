@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { ConfigService } from '@nestjs/config';
 
 jest.mock('bcrypt');
 
@@ -21,6 +22,10 @@ describe('AuthService', () => {
     signAsync: jest.Mock;
   };
 
+  let configService: {
+    get: jest.Mock;
+  };
+
   beforeEach(async () => {
     usersService = {
       findByEmail: jest.fn(),
@@ -29,6 +34,12 @@ describe('AuthService', () => {
     jwtService = {
       signAsync: jest.fn(),
     };
+
+    configService = {
+      get: jest.fn().mockReturnValue(
+        'http://localhost:8000',
+      ),
+    };    
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -41,6 +52,11 @@ describe('AuthService', () => {
           provide: JwtService,
           useValue: jwtService,
         },
+        {
+          provide: ConfigService,
+          useValue: configService,
+        },
+
       ],
     }).compile();
 

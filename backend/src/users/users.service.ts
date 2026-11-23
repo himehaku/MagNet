@@ -54,4 +54,27 @@ export class UsersService {
 
     return result;
   }
+
+  async findById(id: number): Promise<User | null> {
+    return this.usersRepository.findOne({
+      where: { id },
+    });
+  }
+
+  async updateProfile(
+    id: number,
+    profile: Partial<User>,
+  ): Promise<Omit<User, 'passwordHash'>> {
+    await this.usersRepository.update(id, profile);
+
+    const user = await this.findById(id);
+
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    const { passwordHash: _, ...result } = user;
+
+    return result;
+  }  
 }

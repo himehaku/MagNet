@@ -1,8 +1,13 @@
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
 
 from app.services.jobs_service import fetch_jobs
+
+from app.services.cv_service import (
+    detect_skills,
+    extract_text_from_pdf,
+)
 
 app = FastAPI(
     title="MagNet Python Service",
@@ -94,4 +99,51 @@ def calculate_compatibility(data: CompatibilityRequest):
         "compatibility": compatibility,
         "matched_skills": matched_skills,
         "missing_skills": missing_skills
+    }
+
+@app.post("/cv/analyze")
+async def analyze_cv(file: UploadFile = File(...)):
+    if file.content_type != "application/pdf":
+        raise HTTPException(
+            status_code=400,
+            detail="El archivo debe ser un PDF",
+        )
+
+    content = await file.read()
+
+    if not content:
+        raise HTTPException(
+            status_code=400,
+            detail="El archivo está vacío",
+        )
+
+    max_size = 5 * 1024 * 1024
+
+    if len(content) > max_size:
+        raise HTTPException(
+            status_code=413,
+            detail="El archivo supera el límite de 5 MB",
+        )
+
+    try:
+        text = extract_text_from_pdf(content)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=400,
+            detail="No fue posible procesar el PDF",
+        ) from exc
+
+    if not text.strip():
+        raise HTTPException(
+            status_code=422,
+            detail="No fue posible extraer texto del CV",
+        )
+
+    skills = detect_skills(text)
+
+    return {
+        "filename": file.filename,
+        "skills": skills,
+        "skills_count": len(skills),
+        "requires_confirmation": True,
     }
