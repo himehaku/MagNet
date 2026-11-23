@@ -1,0 +1,338 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+
+  background: #f5f7fb;
+}
+
+/* Sidebar */
+
+.sidebar {
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 24px 16px;
+
+  background: #ffffff;
+
+  border-right: 1px solid #e5e7eb;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 4px 10px 28px;
+
+  color: #111827;
+
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #7c3aed
+    );
+
+  font-weight: 800;
+}
+
+.brand-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 6px;
+}
+
+.sidebar-nav a,
+.sidebar-footer a,
+.sidebar-footer button {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border: 0;
+  border-radius: 10px;
+
+  color: #6b7280;
+  background: transparent;
+
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  text-decoration: none;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar-nav a:hover,
+.sidebar-footer a:hover,
+.sidebar-footer button:hover {
+  color: #4f46e5;
+  background: #f5f3ff;
+}
+
+.sidebar-nav a.active {
+  color: #4f46e5;
+  background: #eef2ff;
+}
+
+.nav-icon {
+  width: 22px;
+
+  text-align: center;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Main */
+
+.workspace {
+  min-width: 0;
+
+  height: 100vh;
+
+  overflow-y: auto;
+}
+
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  padding: 12px 32px;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  border-bottom: 1px solid #e5e7eb;
+
+  backdrop-filter: blur(12px);
+}
+
+.topbar-eyebrow {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #4f46e5;
+
+  font-size: 0.65rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.app-topbar strong {
+  color: #374151;
+
+  font-size: 0.9rem;
+}
+
+.user-pill {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 6px 10px 6px 6px;
+
+  color: #374151;
+  background: #f8f8fc;
+
+  border-radius: 999px;
+
+  font-size: 0.84rem;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  color: #4f46e5;
+  background: #e9e7ff;
+
+  font-weight: 800;
+}
+
+.workspace-content {
+  min-width: 0;
+}
+
+/* Responsive */
+
+@media (max-width: 800px) {
+  .app-shell {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding-inline: 10px;
+  }
+
+  .brand {
+    justify-content: center;
+
+    padding-inline: 0;
+  }
+
+  .brand-name,
+  .sidebar-nav a span:not(.nav-icon),
+  .sidebar-footer span:not(.nav-icon) {
+    display: none;
+  }
+
+  .sidebar-nav a,
+  .sidebar-footer a,
+  .sidebar-footer button {
+    justify-content: center;
+  }
+
+  .app-topbar {
+    padding-inline: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+
+    top: auto;
+    bottom: 0;
+    z-index: 100;
+
+    width: 100%;
+    height: 64px;
+
+    flex-direction: row;
+    align-items: center;
+
+    padding: 8px 12px;
+
+    border-right: 0;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .sidebar-nav a {
+    width: auto;
+
+    padding: 10px 14px;
+  }
+
+  .sidebar-footer {
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+  }
+
+  .sidebar-footer a,
+  .sidebar-footer button {
+    width: auto;
+  }
+
+  .workspace {
+    height: auto;
+    min-height: 100vh;
+
+    padding-bottom: 64px;
+  }
+
+  .app-topbar {
+    position: sticky;
+
+    padding: 10px 16px;
+  }
+
+  .app-topbar strong {
+    display: none;
+  }
+
+  .user-pill > span:last-child {
+    display: none;
+  }
+}

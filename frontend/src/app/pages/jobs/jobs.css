@@ -2,10 +2,6 @@
   display: block;
 }
 
-ion-content {
-  --background: #f5f7fb;
-}
-
 .jobs-page {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;

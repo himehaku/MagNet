@@ -1,0 +1,96 @@
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark">M</span>
+
+      <span class="brand-name">
+        MagNet
+      </span>
+    </a>
+
+    <nav class="sidebar-nav">
+
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="nav-icon">⌂</span>
+        <span>Inicio</span>
+      </a>
+
+      <a
+        routerLink="/app/jobs"
+        routerLinkActive="active"
+      >
+        <span class="nav-icon">▣</span>
+        <span>Ofertas</span>
+      </a>
+
+      <a
+        routerLink="/app/profile"
+        routerLinkActive="active"
+      >
+        <span class="nav-icon">○</span>
+        <span>Mi perfil</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+
+      @if (isLoggedIn) {
+        <button
+          type="button"
+          (click)="logout()"
+        >
+          <span class="nav-icon">↪</span>
+          <span>Cerrar sesión</span>
+        </button>
+      } @else {
+        <a routerLink="/login">
+          <span class="nav-icon">→</span>
+          <span>Iniciar sesión</span>
+        </a>
+      }
+
+    </div>
+  </aside>
+
+  <div class="workspace">
+
+    <header class="app-topbar">
+
+      <div>
+        <span class="topbar-eyebrow">
+          MAGNET
+        </span>
+
+        <strong>
+          Encuentra oportunidades para tu perfil
+        </strong>
+      </div>
+
+      <a
+        class="user-pill"
+        routerLink="/app/profile"
+      >
+        <span class="user-avatar">
+          {{ userName.charAt(0) }}
+        </span>
+
+        <span>
+          {{ userName }}
+        </span>
+      </a>
+
+    </header>
+
+    <main class="workspace-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

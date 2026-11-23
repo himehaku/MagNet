@@ -14,8 +14,6 @@ import {
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { IonContent } from '@ionic/angular';
-
 import { Job } from '../../models/job.model';
 import {
   JobFilters,
@@ -28,7 +26,6 @@ import {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    IonContent,
   ],
   templateUrl: './jobs.html',
   styleUrl: './jobs.css',
