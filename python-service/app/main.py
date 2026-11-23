@@ -1,7 +1,8 @@
+from typing import Annotated
+
 import httpx
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
-from typing import Annotated
 
 from app.services.cv_service import (
     detect_skills,
