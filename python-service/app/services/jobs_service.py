@@ -1,10 +1,11 @@
 import re
 from datetime import UTC, datetime
 from time import perf_counter
-from app.services.cv_service import detect_skills
+
 import httpx
 
 from app.models.job import Job
+from app.services.cv_service import detect_skills
 
 GETONBOARD_URL = (
     "https://www.getonbrd.com/api/v0/categories/programming/jobs"

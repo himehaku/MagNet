@@ -5,7 +5,6 @@ from pypdf import PdfWriter
 
 from app.main import app
 
-
 client = TestClient(app)
 
 

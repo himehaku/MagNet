@@ -3,7 +3,6 @@ from io import BytesIO
 
 from pypdf import PdfReader
 
-
 SKILL_PATTERNS: dict[str, list[str]] = {
     "angular": [r"\bangular(?:js)?\b"],
     "react": [r"\breact(?:\.js|js)?\b"],

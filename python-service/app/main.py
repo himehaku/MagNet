@@ -1,13 +1,13 @@
 import httpx
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
-
-from app.services.jobs_service import fetch_jobs
+from typing import Annotated
 
 from app.services.cv_service import (
     detect_skills,
     extract_text_from_pdf,
 )
+from app.services.jobs_service import fetch_jobs
 
 app = FastAPI(
     title="MagNet Python Service",
@@ -120,7 +120,9 @@ def calculate_compatibility(data: CompatibilityRequest):
     }
 
 @app.post("/cv/analyze")
-async def analyze_cv(file: UploadFile = File(...)):
+async def analyze_cv(
+    file: Annotated[UploadFile, File(...)],
+):
     if file.content_type != "application/pdf":
         raise HTTPException(
             status_code=400,
