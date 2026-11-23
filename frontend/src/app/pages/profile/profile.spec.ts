@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { Profile } from './profile';
@@ -12,14 +12,16 @@ describe('Profile', () => {
   const httpClientMock = {
     get: jasmine.createSpy('get').and.returnValue(
       of({
-        userId: 1,
+        id: 1,
+        name: 'Usuario Test',
         email: 'test@example.com',
+        location: 'Viña del Mar',
+        skills: [],
+        interests: [],
+        experienceYears: 0,
+        preferredRemote: false,
       }),
     ),
-  };
-
-  const routerMock = {
-    navigate: jasmine.createSpy('navigate'),
   };
 
   beforeEach(async () => {
@@ -27,20 +29,20 @@ describe('Profile', () => {
 
     await TestBed.configureTestingModule({
       imports: [Profile],
+
       providers: [
+        provideRouter([]),
+
         {
           provide: HttpClient,
           useValue: httpClientMock,
-        },
-        {
-          provide: Router,
-          useValue: routerMock,
         },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Profile);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 
