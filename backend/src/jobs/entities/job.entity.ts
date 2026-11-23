@@ -43,6 +43,12 @@ export class Job {
   })
   category: string | null;
 
+  @Column('text', {
+    array: true,
+    default: () => "'{}'",
+  })
+  skills: string[];  
+
   @Column()
   source: string;
 

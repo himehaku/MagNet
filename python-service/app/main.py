@@ -20,6 +20,8 @@ class CompatibilityRequest(BaseModel):
     user_skills: list[str]
     job_skills: list[str]
 
+class SkillExtractionRequest(BaseModel):
+    text: str
 
 @app.get("/")
 def read_root():
@@ -65,6 +67,22 @@ async def get_jobs(limit: int = 20):
             detail="No fue posible conectar con Get on Board",
         ) from exc
 
+@app.post("/skills/extract")
+def extract_skills(data: SkillExtractionRequest):
+    text = data.text.strip()
+
+    if not text:
+        raise HTTPException(
+            status_code=400,
+            detail="El texto no puede estar vacío",
+        )
+
+    skills = detect_skills(text)
+
+    return {
+        "skills": skills,
+        "skills_count": len(skills),
+    }
 
 @app.post("/compatibility")
 def calculate_compatibility(data: CompatibilityRequest):

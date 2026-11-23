@@ -156,6 +156,112 @@
           </span>
         </div>
 
+        <div
+          *ngIf="job.compatibility"
+          class="job-card__matching"
+        >
+          <div class="match-card">
+
+            <div class="match-card__top">
+              <div>
+                <span class="match-eyebrow">
+                  MATCHING MAGNET
+                </span>
+
+                <h3>
+                  Compatibilidad estimada
+                </h3>
+              </div>
+
+              <div
+                class="match-ring"
+                [style.--score]="job.compatibility.compatibility"
+              >
+                <div class="match-ring__inner">
+                  {{ job.compatibility.compatibility }}%
+                </div>
+              </div>
+            </div>
+
+            <div class="match-summary">
+              <span class="profile-dot"></span>
+
+              <div>
+                <strong>
+                  Tu perfil
+                </strong>
+
+                <p>
+                  Comparado con {{ job.title }}
+                </p>
+              </div>
+            </div>
+
+            <div
+              *ngIf="
+                job.compatibility.matchedSkills.length > 0
+              "
+              class="match-skills"
+            >
+              <span
+                *ngFor="
+                  let skill of job.compatibility.matchedSkills
+                "
+                class="match-skill match-skill--matched"
+              >
+                {{ skill }}
+              </span>
+            </div>
+
+            <div class="match-divider"></div>
+
+            <div class="match-results">
+              <div
+                *ngFor="
+                  let skill of job.compatibility.matchedSkills
+                "
+                class="match-result"
+              >
+                <div>
+                  <span
+                    class="status-dot status-dot--matched"
+                  ></span>
+
+                  {{ skill }}
+                </div>
+
+                <strong class="status-text matched">
+                  Coincide
+                </strong>
+              </div>
+
+              <div
+                *ngFor="
+                  let skill of job.compatibility.missingSkills
+                "
+                class="match-result"
+              >
+                <div>
+                  <span
+                    class="status-dot status-dot--missing"
+                  ></span>
+
+                  {{ skill }}
+                </div>
+
+                <strong class="status-text missing">
+                  Por desarrollar
+                </strong>
+              </div>
+            </div>
+
+            <p class="match-explanation">
+              {{ job.compatibility.explanation }}
+            </p>
+
+          </div>
+        </div>
+
         <p
           class="location"
           *ngIf="job.location"

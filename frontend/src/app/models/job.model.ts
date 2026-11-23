@@ -1,3 +1,10 @@
+export interface JobCompatibility {
+  compatibility: number;
+  matchedSkills: string[];
+  missingSkills: string[];
+  explanation: string;
+}
+
 export interface Job {
   id: number;
   externalId: string;
@@ -7,10 +14,13 @@ export interface Job {
   location: string | null;
   remote: boolean | null;
   category: string | null;
+  skills: string[];
   source: string;
   sourceUrl: string;
   publishedAt: string | null;
   fetchedAt: string;
   createdAt: string;
   updatedAt: string;
+
+  compatibility?: JobCompatibility;
 }

@@ -1,7 +1,7 @@
 import re
 from datetime import UTC, datetime
 from time import perf_counter
-
+from app.services.cv_service import detect_skills
 import httpx
 
 from app.models.job import Job
@@ -99,6 +99,11 @@ async def fetch_jobs(limit: int = 20) -> tuple[list[Job], dict]:
             attributes.get("description")
         )
 
+        job_text = f"{title} {description}"
+
+        skills = detect_skills(job_text)
+
+
         countries = attributes.get("countries", [])
 
         remote_modality = attributes.get(
@@ -155,6 +160,7 @@ async def fetch_jobs(limit: int = 20) -> tuple[list[Job], dict]:
                 fetched_at=datetime.now(
                     UTC
                 ),
+                skills=skills,
             )
         )
 

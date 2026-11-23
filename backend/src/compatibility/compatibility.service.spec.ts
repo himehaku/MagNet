@@ -4,6 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of, throwError } from 'rxjs';
 
+import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { UsersService } from '../users/users.service';
+import { Job } from '../jobs/entities/job.entity';
+
 import { CompatibilityService } from './compatibility.service';
 
 describe('CompatibilityService', () => {
@@ -17,6 +22,14 @@ describe('CompatibilityService', () => {
     get: jest.Mock;
   };
 
+  let usersService: {
+    findById: jest.Mock;
+  };
+
+  let jobsRepository: {
+    findOne: jest.Mock;
+  };  
+
   beforeEach(async () => {
     httpService = {
       post: jest.fn(),
@@ -26,6 +39,13 @@ describe('CompatibilityService', () => {
       get: jest.fn(),
     };
 
+    usersService = {
+      findById: jest.fn(),
+    };
+
+    jobsRepository = {
+      findOne: jest.fn(),
+    };    
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CompatibilityService,
@@ -37,6 +57,15 @@ describe('CompatibilityService', () => {
           provide: ConfigService,
           useValue: configService,
         },
+
+        {
+          provide: UsersService,
+          useValue: usersService,
+        },
+        {
+          provide: getRepositoryToken(Job),
+          useValue: jobsRepository,
+        },        
       ],
     }).compile();
 

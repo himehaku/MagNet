@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBoolean,
   IsDateString,
   IsOptional,
@@ -30,6 +31,10 @@ export class ImportJobDto {
   @IsOptional()
   @IsString()
   category?: string | null;
+
+  @IsArray()
+  @IsString({ each: true })
+  skills: string[];  
 
   @IsString()
   source: string;

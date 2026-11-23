@@ -7,10 +7,12 @@ ion-content {
 }
 
 .jobs-page {
-  width: min(1100px, calc(100% - 32px));
+  width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
   padding: 48px 0 64px;
 }
+
+/* HEADER */
 
 .jobs-header {
   margin-bottom: 32px;
@@ -18,25 +20,33 @@ ion-content {
 
 .jobs-header h1 {
   margin: 0 0 8px;
+
+  color: #111827;
+
   font-size: 2rem;
   font-weight: 700;
-  color: #111827;
 }
 
 .jobs-header p {
   margin: 0;
+
   color: #6b7280;
+
   font-size: 1rem;
 }
+
+/* FILTERS */
 
 .jobs-filters {
   display: grid;
   grid-template-columns: 2fr 1.2fr 1fr 1.2fr;
   gap: 16px;
+
   padding: 24px;
   margin-bottom: 32px;
 
   background: #ffffff;
+
   border: 1px solid #e5e7eb;
   border-radius: 16px;
 
@@ -52,25 +62,28 @@ ion-content {
 }
 
 .jobs-filters label {
+  color: #374151;
+
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
 }
 
 .jobs-filters input,
 .jobs-filters select {
   width: 100%;
   height: 44px;
+
   padding: 0 12px;
 
-  font-size: 0.95rem;
   color: #111827;
-
   background: #ffffff;
+
   border: 1px solid #d1d5db;
   border-radius: 10px;
 
   outline: none;
+
+  font-size: 0.95rem;
 
   transition:
     border-color 0.2s ease,
@@ -80,20 +93,26 @@ ion-content {
 .jobs-filters input:focus,
 .jobs-filters select:focus {
   border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.12);
 }
 
 .filter-actions {
   grid-column: 1 / -1;
+
   display: flex !important;
   flex-direction: row !important;
   justify-content: flex-end;
+
   gap: 12px !important;
+
   margin-top: 4px;
 }
 
 .filter-actions button {
   min-height: 42px;
+
   padding: 0 18px;
 
   border: 0;
@@ -103,14 +122,6 @@ ion-content {
   font-weight: 600;
 
   cursor: pointer;
-
-  transition:
-    transform 0.15s ease,
-    opacity 0.15s ease;
-}
-
-.filter-actions button:hover {
-  transform: translateY(-1px);
 }
 
 .filter-actions button:first-child {
@@ -123,13 +134,16 @@ ion-content {
   background: #eef0f4;
 }
 
+/* STATES */
+
 .state-message {
   padding: 28px;
-  text-align: center;
 
   color: #6b7280;
-
   background: #ffffff;
+
+  text-align: center;
+
   border: 1px solid #e5e7eb;
   border-radius: 14px;
 }
@@ -140,31 +154,20 @@ ion-content {
   border-color: #fecaca;
 }
 
-.state-message button {
-  margin-top: 12px;
-  padding: 9px 16px;
-
-  border: 0;
-  border-radius: 8px;
-
-  color: #ffffff;
-  background: #4f46e5;
-
-  font-weight: 600;
-  cursor: pointer;
-}
+/* JOB LIST */
 
 .jobs-grid {
   display: grid;
-  gap: 20px;
+  gap: 22px;
 }
 
 .job-card {
-  padding: 24px;
+  padding: 26px;
 
   background: #ffffff;
+
   border: 1px solid #e5e7eb;
-  border-radius: 16px;
+  border-radius: 18px;
 
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.03),
@@ -179,14 +182,15 @@ ion-content {
   transform: translateY(-2px);
 
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.05),
-    0 12px 28px rgba(0, 0, 0, 0.06);
+    0 5px 14px rgba(0, 0, 0, 0.05),
+    0 14px 30px rgba(0, 0, 0, 0.06);
 }
 
 .job-card__header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
+
   gap: 20px;
 }
 
@@ -195,7 +199,7 @@ ion-content {
 
   color: #111827;
 
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.35;
 }
@@ -205,13 +209,13 @@ ion-content {
 
   color: #4f46e5;
 
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .remote-badge {
   flex-shrink: 0;
 
-  padding: 6px 10px;
+  padding: 6px 11px;
 
   color: #047857;
   background: #ecfdf5;
@@ -222,8 +226,270 @@ ion-content {
   font-weight: 700;
 }
 
+/* MATCHING */
+
+.job-card__matching {
+  width: 100%;
+
+  margin-top: 22px;
+  margin-bottom: 24px;
+}
+
+.match-card {
+  width: 100%;
+  max-width: none;
+
+  padding: 24px 26px;
+
+  border: 1px solid #dddafe;
+  border-radius: 20px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(79, 70, 229, 0.08),
+      transparent 28%
+    ),
+    #ffffff;
+
+  box-shadow:
+    0 10px 28px rgba(79, 70, 229, 0.05);
+}
+
+.match-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 24px;
+}
+
+.match-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  padding: 6px 11px;
+
+  color: #4f46e5;
+  background: #f5f3ff;
+
+  border: 1px solid #d9d6fe;
+  border-radius: 999px;
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.match-card h3 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* SCORE RING */
+
+.match-ring {
+  --score: 0;
+
+  position: relative;
+
+  width: 82px;
+  height: 82px;
+
+  flex: 0 0 82px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    conic-gradient(
+      #4f46e5 calc(var(--score) * 1%),
+      #38bdf8 calc(var(--score) * 1%),
+      #ecebfd 0
+    );
+}
+
+.match-ring::before {
+  content: '';
+
+  position: absolute;
+
+  width: 64px;
+  height: 64px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+}
+
+.match-ring__inner {
+  position: relative;
+
+  z-index: 1;
+
+  color: #4f46e5;
+
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+/* PROFILE SUMMARY */
+
+.match-summary {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+.profile-dot {
+  width: 14px;
+  height: 14px;
+
+  flex-shrink: 0;
+
+  background: #4f46e5;
+
+  border: 4px solid #dddafe;
+  border-radius: 50%;
+}
+
+.match-summary strong {
+  display: block;
+
+  color: #1f2937;
+}
+
+.match-summary p {
+  margin: 2px 0 0;
+
+  color: #8a91a1;
+
+  font-size: 0.82rem;
+}
+
+/* MATCHED SKILLS */
+
+.match-skills {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.match-skill {
+  padding: 7px 12px;
+
+  color: #4f46e5;
+  background: #f5f3ff;
+
+  border: 1px solid #c7d2fe;
+  border-radius: 999px;
+
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.match-divider {
+  height: 1px;
+
+  margin: 22px 0 18px;
+
+  background: #e8eaf0;
+}
+
+/* RESULTS */
+
+.match-results {
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  );
+
+  gap: 10px 26px;
+}
+
+.match-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  color: #596173;
+
+  font-size: 0.88rem;
+}
+
+.match-result > div {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+}
+
+.status-dot--matched {
+  background: #10b981;
+}
+
+.status-dot--missing {
+  background: #f59e0b;
+}
+
+.status-text {
+  white-space: nowrap;
+
+  font-size: 0.78rem;
+}
+
+.status-text.matched {
+  color: #047857;
+}
+
+.status-text.missing {
+  color: #a16207;
+}
+
+.match-explanation {
+  margin: 20px 0 0;
+
+  padding: 12px 14px;
+
+  color: #697080;
+  background: #f8f8fc;
+
+  border-radius: 10px;
+
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+/* JOB DETAILS */
+
 .location {
-  margin: 14px 0 0;
+  margin: 4px 0 0;
 
   color: #6b7280;
 
@@ -239,14 +505,17 @@ ion-content {
   line-height: 1.65;
 
   display: -webkit-box;
+
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+
   overflow: hidden;
 }
 
 .job-meta {
   display: flex;
   flex-wrap: wrap;
+
   gap: 10px;
 
   margin-bottom: 20px;
@@ -279,15 +548,22 @@ ion-content {
   text-decoration: underline;
 }
 
+/* RESPONSIVE */
+
 @media (max-width: 900px) {
   .jobs-filters {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .match-results {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 600px) {
   .jobs-page {
-    width: min(100% - 24px, 1100px);
+    width: min(100% - 24px, 1180px);
+
     padding-top: 28px;
   }
 
@@ -297,6 +573,7 @@ ion-content {
 
   .jobs-filters {
     grid-template-columns: 1fr;
+
     padding: 18px;
   }
 
@@ -314,5 +591,29 @@ ion-content {
 
   .job-card__header {
     flex-direction: column;
+  }
+
+  .match-card {
+    padding: 18px;
+  }
+
+  .match-card__top {
+    gap: 14px;
+  }
+
+  .match-ring {
+    width: 68px;
+    height: 68px;
+
+    flex-basis: 68px;
+  }
+
+  .match-ring::before {
+    width: 52px;
+    height: 52px;
+  }
+
+  .match-ring__inner {
+    font-size: 0.95rem;
   }
 }

@@ -15,3 +15,4 @@ class Job(BaseModel):
     source_url: HttpUrl
     published_at: datetime | None = None
     fetched_at: datetime
+    skills: list[str] = []

@@ -4,11 +4,15 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { IonContent } from '@ionic/angular';
 
@@ -61,8 +65,70 @@ export class JobsPage implements OnInit {
 
     this.jobsService.getJobs(filters).subscribe({
       next: (jobs) => {
-        this.jobs = jobs;
-        this.loading = false;
+        const token = localStorage.getItem('accessToken');
+
+        if (!token) {
+          this.jobs = jobs;
+          this.loading = false;
+          return;
+        }
+
+        const requests = jobs.map((job) =>
+          this.jobsService
+            .getCompatibility(job.id)
+            .pipe(
+              catchError(() =>
+                of({
+                  jobId: job.id,
+                  title: job.title,
+                  compatibility: 0,
+                  matchedSkills: [],
+                  missingSkills: [],
+                  explanation:
+                    'No fue posible calcular compatibilidad.',
+                }),
+              ),
+            ),
+        );
+
+        forkJoin(requests).subscribe({
+          next: (compatibilities) => {
+            this.jobs = jobs
+              .map((job) => {
+                const compatibility =
+                  compatibilities.find(
+                    (item) => item.jobId === job.id,
+                  );
+
+                return {
+                  ...job,
+                  compatibility: compatibility
+                    ? {
+                        compatibility:
+                          compatibility.compatibility,
+                        matchedSkills:
+                          compatibility.matchedSkills,
+                        missingSkills:
+                          compatibility.missingSkills,
+                        explanation:
+                          compatibility.explanation,
+                      }
+                    : undefined,
+                };
+              })
+              .sort(
+                (a, b) =>
+                  (b.compatibility?.compatibility ?? 0) -
+                  (a.compatibility?.compatibility ?? 0),
+              );
+
+            this.loading = false;
+          },
+          error: () => {
+            this.jobs = jobs;
+            this.loading = false;
+          },
+        });
       },
       error: () => {
         this.errorMessage =

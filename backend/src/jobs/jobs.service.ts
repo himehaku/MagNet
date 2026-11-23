@@ -125,6 +125,7 @@ export class JobsService {
         location: jobDto.location ?? null,
         remote: jobDto.remote ?? null,
         category: jobDto.category ?? null,
+        skills: jobDto.skills ?? [],
         source: jobDto.source,
         sourceUrl: jobDto.source_url,
         publishedAt: jobDto.published_at

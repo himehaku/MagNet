@@ -1,7 +1,13 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
+
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+
 
 import { Job } from '../models/job.model';
 
@@ -53,4 +59,29 @@ export class JobsService {
       { params },
     );
   }
+
+  getCompatibility(jobId: number) {
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      throw new Error('No hay sesión iniciada');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<{
+      jobId: number;
+      title: string;
+      compatibility: number;
+      matchedSkills: string[];
+      missingSkills: string[];
+      explanation: string;
+    }>(
+      `${environment.apiUrl}/compatibility/jobs/${jobId}`,
+      { headers },
+    );
+  }
+  
 }
